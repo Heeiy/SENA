@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PortMaster Analyst Web</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <style>
+        /* CSS internal dari temanmu yang perlu dipertahankan untuk layout dasar */
+        body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #343a40;
+            color: white;
+            padding: 20px 15px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 24px;
+            text-align: center;
+            border-bottom: 2px solid #495057;
+            padding-bottom: 10px;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+        .sidebar ul li a {
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+        .sidebar ul li a:hover,
+        .sidebar ul li a.active {
+            background-color: #495057;
+            text-decoration: none;
+        }
+        .content {
+            margin-left: 220px; /* Penting untuk menggeser konten agar tidak tertutup sidebar */
+            padding: 20px 35px;
+            flex-grow: 1;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+        /* Page section styling */
+        section.page-section {
+            display: none; /* Default hidden */
+        }
+        section.page-section.active {
+            display: block; /* Show active section */
+        }
+        /* Home Section */
+        .home-welcome {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        .home-welcome h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .home-welcome p {
+            font-size: 1.25rem;
+            color: #ced4da;
+        }
+       .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 kolom */
+            gap: 37px; /* jarak antar kotak */
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 30px 0;
+        }
+        .feature-card {
+            background-color: white;
+            border-radius: 30px;
+            padding: 11px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            margin: 0 auto;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+        .feature-card i {
+            font-size: 55px;
+            margin-bottom: 15px;
+            color: #0d6efd;
+        }
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: #212529;
+        }
+        .feature-card p {
+            color: #6c757d;
+            font-size: 15px;
+        }
+        /* About Section */
+        .about-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px 35px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            color: #212529;
+            line-height: 1.6;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .about-section h2 {
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #223e68;
+            text-align: center;
+        }
+
+        .about-section h3 {
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #223e68;
+            text-align: center;
+        }
+
+        .about-section p {
+            font-size: 17px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-bg">
+        <video autoplay muted loop playsinline>
+            <source src="static/images/bg-web-pbl.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <nav class="sidebar">
+        <h2>SENA</h2>
+        <ul>
+            <li><a href="#" data-section="home" class="active">Home</a></li>
+            <li><a href="#" data-section="project">Project</a></li>
+            <li><a href="#" data-section="about">About</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <section id="home" class="page-section active" aria-label="Home Section">
+            <div class="home-welcome">
+                <h1>Welcome to SENA</h1>
+                <p>Scanning Engineering Network Assistant</p>
+            </div>
+            <div class="feature-cards" aria-label="Features Highlights">
+                <article class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Fast & Efficient</h3>
+                    <p>Utilizes BFS and DFS algorithms for optimized scanning speed.</p>
+                </article>
+                <article class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure & Reliable</h3>
+                    <p>Prioritizes scanning common ports first to reduce risks and improve accuracy.</p>
+                </article>
+                <article class="feature-card">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Customizable</h3>
+                    <p>Allows max thread configuration and algorithm selection.</p>
+                </article>
+                <article class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Detailed Results</h3>
+                    <p>Clear and comprehensive scan reports with progress tracking.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="project" class="page-section" aria-label="Project Section">
+            <div class="banner mb-4">
+                <h1><i class="fas fa-network-wired"></i> SENA</h1>
+                <p>Advanced Port Scanner with BFS/DFS Algorithms</p>
+            </div>
+
+            <div class="container-fluid px-0"> <div class="row gx-4">
+                    <div class="col-lg-6">
+                        <div class="scan-card">
+                            <h3><i class="fas fa-cogs"></i> Scan Configuration</h3>
+                            <hr>
+                            <form id="scan-form">
+                                <div class="mb-3">
+                                    <label for="target" class="form-label">Target IP:</label>
+                                    <input type="text" class="form-control" id="target" placeholder="e.g., 192.168.1.1" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Algoritma Scanning:</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="algorithm" id="bfs" value="bfs" checked>
+                                        <label class="form-check-label" for="bfs">
+                                            BFS (Breadth-First Search)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="algorithm" id="dfs" value="dfs">
+                                        <label class="form-check-label" for="dfs">
+                                            DFS (Depth-First Search)
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="common_ports_first" checked>
+                                        <label class="form-check-label" for="common_ports_first">
+                                            Scan port umum terlebih dahulu
+                                        </label>
+                                        <button type="button" class="btn btn-sm btn-info ms-2 info-btn" data-bs-toggle="modal" data-bs-target="#commonPortsInfoModal">
+                                            <i class="fas fa-info-circle"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="port_range" class="form-label">Port Range:</label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="port_range_start" placeholder="Start" value="1" min="1" max="65535">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="port_range_end" placeholder="End" value="1024" min="1" max="65535">
+                                        </div>
+                                    </div>
+                                    <small class="form-text text-muted">Default: 1-1024 (well-known ports)</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="max_threads" class="form-label">Jumlah maksimum thread:</label>
+                                    <input type="number" class="form-control" id="max_threads" value="100" min="1" max="500">
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Mulai Scanning
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="scan-card" id="current-scan" style="display: none;">
+                            <h3><i class="fas fa-tasks"></i> Scan Progress <span id="scan-status-badge" class="badge bg-warning status-badge">Scanning...</span></h3>
+                            <hr>
+                            <div id="scan-info">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Target:</strong> <span id="scan-target"></span></p>
+                                        <p><strong>Algorithm:</strong> <span id="scan-algorithm"></span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Start Time:</strong> <span id="scan-start-time"></span></p>
+                                        <p><strong>Common Ports First:</strong> <span id="scan-common-ports"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <label id="progress-label">Progress: <span id="progress-percent">0%</span></label>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" id="scan-progress-bar"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <h5>Open Ports:</h5>
+                                <div id="open-ports-container">
+                                    <div id="port-count" class="mb-2">Found: <span>0</span></div>
+                                    <div id="open-ports-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="results-card" id="scan-results" style="display: none;">
+                            <h3><i class="fas fa-clipboard-list"></i> Final Results</h3>
+                            <hr>
+                            <div id="results-info">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Target:</strong> <span id="results-target"></span></p>
+                                        <p><strong>Algorithm:</strong> <span id="results-algorithm"></span></p>
+                                        <p><strong>Scan Duration:</strong> <span id="results-duration"></span> seconds</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Start Time:</strong> <span id="results-start-time"></span></p>
+                                        <p><strong>End Time:</strong> <span id="results-end-time"></span></p>
+                                        <p><strong>Total Ports Scanned:</strong> <span id="results-ports-scanned"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h5>Open Ports:</h5>
+                            <div id="results-open-ports">
+                                <table class="table port-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Port</th>
+                                            <th>Service</th>
+                                            <th>Risk Level</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="results-ports-table"></tbody>
+                                </table>
+                            </div>
+
+                            <div class="mb-3 d-flex justify-content-end">
+                                <button id="export-pdf-btn" class="btn btn-secondary">
+                                    <i class="fas fa-file-pdf"></i> Export to PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="history-section" class="mt-5">
+                    <h3><i class="fas fa-history"></i> Scan History</h3>
+                    <hr>
+                    <div id="history-list" class="row">
+                        </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="page-section" aria-label="About Section">
+            <div class="about-section">
+                <h2>Tentang PortMaster Analyst</h2>
+                <p>
+                    PortMaster Analyst adalah aplikasi web yang dirancang untuk melakukan pemindaian port jaringan secara efisien menggunakan algoritma BFS (Breadth-First Search) dan DFS (Depth-First Search).
+                </p>
+                <p>
+                    Proyek ini bertujuan untuk memberikan kemampuan pemindaian port yang cepat, andal, dan dapat disesuaikan. Pengguna dapat menentukan alamat IP target, memilih algoritma pemindaian, dan mengonfigurasi jumlah thread untuk mengoptimalkan kinerja.
+                </p>
+                <p>
+                    PortMaster Analyst memberikan umpan balik visual yang intuitif selama pemindaian dengan bilah kemajuan dan hasil akhir yang terperinci, menjadikannya cocok untuk administrator jaringan dan analis keamanan yang memerlukan analisis port yang lancar.
+                </p>
+            </div>
+            <div class="about-section mt-4"> <h3>Tim Pengembang</h3>
+                <div class="team-members">
+                    <div class="team-member">
+                        <img src="static/images/pais.jpg" alt="Muhammad Rizqy Nur Faiz" class="team-member img" />
+                        <p><strong>Muhammad Rizqy Nur Faiz</strong><br>4332401025</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="static/images/depi.jpg" alt="Devi Natalya" class="team-member img" />
+                        <p><strong>Devi Natalya</strong><br>4332401002</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="static/images/gina.jpg" alt="Gina Thasafiya" class="team-member img" />
+                        <p><strong>Gina Thasafiya</strong><br>4332401003</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="static/images/pika.jpg" alt="Nursyafika Wahyuni" class="team-member img" />
+                        <p><strong>Nursyafika Wahyuni</strong><br>4332401007</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="static/images/rejak.jpg" alt="Muhammad Reza Pahlevi" class="team-member img" />
+                        <p><strong>Muhammad Reza Pahlevi</strong><br>4332401020</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="static/images/dwita.jpg" alt="Dwita Puspa Rini" class="team-member img" />
+                        <p><strong>Dwita Puspa Rini</strong><br>4332401019</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal fade" id="commonPortsInfoModal" tabindex="-1" aria-labelledby="commonPortsInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="commonPortsInfoModalLabel">Tentang Fitur "Scan Port Umum Terlebih Dahulu"</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Fitur ini memprioritaskan pemindaian port-port yang sering digunakan sebelum memeriksa port lainnya. Tujuannya adalah untuk lebih cepat menemukan layanan-layanan umum yang mungkin berjalan pada target.</p>
+                    
+                    <h6>Port umum yang diprioritaskan:</h6>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <ul class="list-unstyled">
+                                <li><strong>21</strong> - FTP</li>
+                                <li><strong>22</strong> - SSH</li>
+                                <li><strong>23</strong> - Telnet</li>
+                                <li><strong>25</strong> - SMTP</li>
+                                <li><strong>53</strong> - DNS</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="list-unstyled">
+                                <li><strong>80</strong> - HTTP</li>
+                                <li><strong>110</strong> - POP3</li>
+                                <li><strong>135</strong> - RPC</li>
+                                <li><strong>139</strong> - NetBIOS</li>
+                                <li><strong>143</strong> - IMAP</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="list-unstyled">
+                                <li><strong>443</strong> - HTTPS</li>
+                                <li><strong>445</strong> - SMB</li>
+                                <li><strong>3306</strong> - MySQL</li>
+                                <li><strong>3389</strong> - RDP</li>
+                                <li><strong>8080</strong> - HTTP Alt</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <h6>Algoritma Scanning:</h6>
+                    <p>Dengan opsi ini diaktifkan:</p>
+                    <ul>
+                        <li>Untuk <strong>BFS</strong> (Breadth-First Search): Port umum akan ditempatkan di awal queue</li>
+                        <li>Untuk <strong>DFS</strong> (Depth-First Search): Port umum akan ditempatkan di awal stack (dibalik)</li>
+                    </ul>
+                    
+                    <p>Hasilnya adalah port yang umum digunakan akan diperiksa lebih awal dalam proses scanning.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Sidebar link navigation to toggle content sections (dari temanmu)
+        document.querySelectorAll('.sidebar ul li a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const sectionToShow = this.getAttribute('data-section');
+
+                // Remove active class from all links and add to clicked
+                document.querySelectorAll('.sidebar ul li a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+
+                // Show/hide sections
+                document.querySelectorAll('.page-section').forEach(section => {
+                    if (section.id === sectionToShow) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                // Optional: scroll to top of content area
+                document.querySelector('.content').scrollTop = 0;
+            });
+        });
+
+        // Set default active section on load (ini tambahan agar 'Project' bisa jadi default jika diinginkan)
+        // Kalau kamu ingin 'Home' yang muncul pertama, biarkan 'home' sebagai 'active' di HTML
+        // Kalau ingin 'Project' yang muncul pertama saat halaman dibuka:
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     document.querySelector('.sidebar ul li a[data-section="project"]').click();
+        // });
+    </script>
+</body>
+</html>
